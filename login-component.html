@@ -1,0 +1,95 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+
+
+<dom-module id="login-component">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+           paper-button {
+        background-color: pink;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+    paper-checkbox {
+        --paper-checkbox-checked-color: black;
+
+    }
+
+    </style>
+
+    
+    
+    <h2> LOGIN </h2>  
+    <paper-card>
+    <paper-input label="User" value="{{user}}"> </paper-input>
+    <paper-input label="Password" value={{pass}} > </paper-input>
+    <paper-checkbox> Remember</paper-checkbox>
+
+    <paper-button raised label="submit" on-click="loginResult" >submit</paper-button>    
+    
+
+  </paper-card>
+
+  </template>
+
+  <script>
+    /**
+     * `login-component`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class LoginComponent extends Polymer.Element {
+      static get is() { return 'login-component'; }
+      static get properties() {
+        return {
+          logged: {
+            type: Boolean,
+            computed: 'validate(user,pass)'
+          },
+          user:{
+            type:String,
+            value: ''
+                      },
+          pass:{
+            type:String,
+            value: ''
+          }            
+        };
+      }
+      validate(user,pass) {
+           if (user !== '' && pass !=='') {
+           console.log("acceso exitoso");
+           return true
+         } else {
+          console.log("acceso denegado");
+          return false
+         }   
+      }
+
+      loginResult(){
+        const submit= new CustomEvent('submit',{
+          detail:{
+            result: this.logged
+          }
+        })
+      this.dispatchEvent (submit);  
+      }
+    }
+    
+
+    window.customElements.define(LoginComponent.is, LoginComponent);
+  </script>
+</dom-module>
